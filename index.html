@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div id="navbar"></div>
+
+<div id="app">
+<h2>Login</h2>
+<input v-model="login.email" placeholder="Email" >
+<input v-model="login.password" type="password" placeholder="Password">
+<button @click="loginUser">Login</button>
+
+<h2>Register</h2>
+<input v-model="register.name" placeholder="Name">
+<input v-model="register.email" placeholder="Email">
+<input v-model="register.password" placeholder="Password">
+<button @click="registerUser">Register</button>
+
+<p>{{message}}</p>
+</div>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script src="js/app.js"></script>
+
+<script>
+fetch('navbar.html')
+.then(response => response.text())
+.then(html => {
+    document.getElementById('navbar').innerHTML = html;
+});
+</script>
+
+</body>
+</html>

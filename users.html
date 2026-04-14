@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Users</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div id="navbar"></div>
+
+<div id="app">
+
+<h2>Users</h2>
+
+<div v-if="role=='role1'">
+<input v-model="newUser.name" placeholder="Name">
+<input v-model="newUser.email" placeholder="Email">
+
+<select v-model="newUser.role">
+<option value="role1">Admin</option>
+<option value="role2">Manager</option>
+<option value="role3">Basic</option>
+</select>
+
+<button @click="createUser">Create</button>
+</div>
+
+<input v-model="userSearch" placeholder="Search name/email">
+<button @click="getUsers">Search</button>
+
+<table border="1">
+<tr v-for="u in users">
+<td>{{u.name}}</td>
+<td>{{u.email}}</td>
+<td>{{u.role}}</td>
+
+<td>
+<button v-if="role=='role1'" @click="deleteUser(u.id)">Delete</button>
+</td>
+</tr>
+</table>
+
+<button @click="prevPage">Prev</button>
+Page {{page}}
+<button @click="nextPage">Next</button>
+
+</div>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script src="js/users.js"></script>
+
+<script>
+fetch('/Leads/api/auth/authCheck.php')
+.then(res => {
+    if(!res.ok){
+        window.location = "index.html";
+    }
+});
+</script>
+
+<script>
+fetch('navbar.html')
+.then(r => r.text())
+.then(h => document.getElementById('navbar').innerHTML = h);
+</script>
+
+</body>
+</html>

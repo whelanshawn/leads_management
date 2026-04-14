@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leads</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div id="navbar"></div>
+
+<div id="app">
+{{userId}} - {{role}} 
+
+<!-- Filter by lead name and date -->
+<input v-model="searchName" placeholder="Search by name">
+<input type="date" v-model="dateFrom">
+<input type="date" v-model="dateTo">
+
+<button @click="getLeads">Search</button>
+
+<h3>Create Lead</h3>
+<input v-model="newLead.name" placeholder="Name">
+<input v-model="newLead.description" placeholder="Description">
+<button @click="createLead">Create</button>
+
+<p>{{ message }}</p>
+
+<table border="1">
+<td>Lead Name</td>
+<td>Lead Description</td>
+<td>Status</td>
+<td>Assigned To</td>
+<td>Assigned ID</td>
+<tr v-for="lead in leads" :key="lead.id">
+<!-- <td>{{ lead.name }}</td> -->
+<td>
+<input v-if="lead.assigned_to === userId || role === 'role1'" v-model="lead.name">
+<span v-else>{{ lead.name }}</span>
+</td>
+<td>
+<input v-if="lead.assigned_to === userId || role === 'role1'" v-model="lead.description">
+<span v-else>{{ lead.description }}</span>
+</td>
+<td>{{ lead.status || 'Open' }}</td>
+<td>{{ lead.assigned}}</td>
+<td>{{ lead.assigned_to}}</td>
+<td>
+
+<!-- btn update-->
+<button
+v-if="lead.assigned_to == userId || role == 'role1'"
+@click="updateLead(lead)">
+Edit
+</button>
+
+
+<!-- btn complete-->
+<button
+v-if="(lead.status != 'completed' && lead.assigned_to == userId) || role == 'role1'"
+@click="completeLead(lead.id)">
+Complete
+</button>
+
+<!-- btn delete-->
+<button 
+v-if="role=='role1'/* ||role=='role2' */" 
+@click="deleteLead(lead.id)">
+Delete
+</button>
+</td>
+</tr>
+</table>
+<!-- Pagination --> 
+<div>
+    <button @click="prevPage">Prev</button>
+    Page {{ page }}
+    <button @click="nextPage">Next</button>
+</div>
+
+</div>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script src="js/leads.js"></script>
+
+<script>
+fetch('/Leads/api/auth/authCheck.php')
+.then(res => {
+    if(!res.ok){
+        window.location = "index.html";
+    }
+});
+</script>
+
+<script>
+fetch('navbar.html')
+.then(response => response.text())
+.then(html => {
+    document.getElementById('navbar').innerHTML = html;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leads Report</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div id="navbar"></div>
+
+<div id="app">
+
+<h2>Leads Report</h2>
+
+<!-- Filter by lead name and date -->
+<div>
+    <input type="text" v-model="searchName" placeholder="Search by name">
+    
+    <input type="date" v-model="dateFrom">
+    <input type="date" v-model="dateTo">
+
+    <button @click="getLeads">Filter</button>
+</div>
+
+<div v-if="message" :class="messageClass">
+    {{ message }}
+</div>
+
+<table>
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Status</th>
+    <th>Created</th>
+</tr>
+
+<tr v-for="lead in leads">
+    <td>{{ lead.id }}</td>
+    <td>{{ lead.name }}</td>
+    <td>{{ lead.description }}</td>
+
+    <td :class="lead.status === 'completed' ? 'completed' : 'open'">
+        {{ lead.status || 'Open' }}
+    </td>
+
+    <td>{{ lead.created_at }}</td>
+
+</tr>
+</table>
+
+<!-- Pagination -->
+<div>
+    <button @click="prevPage">Prev</button>
+    Page {{ page }}
+    <button @click="nextPage">Next</button>
+</div>
+
+</div>
+
+<script src="https://unpkg.com/vue@3"></script>
+<script src="js/leadsView.js"></script>
+
+<script>
+fetch('navbar.html')
+.then(response => response.text())
+.then(html => document.getElementById('navbar').innerHTML = html);
+</script>
+
+</body>
+</html>
