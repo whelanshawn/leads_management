@@ -36,6 +36,7 @@ CREATE TABLE leads (
 Role 1 = Admin
 Role 2 = Secretary 
 Role 3 - General User
+Default Password: P@55word
 
 INSERT INTO users (name, email, password, role) VALUES
 ('Admin User', 'admin@test.com', '$2y$10$F5ONkCtcHIsliRah2N188eaKw2zpPYy7kaoqTS8NTDGTaq5u8VjZu', 'role1'),
